@@ -1,4 +1,4 @@
 package model;
 
-public class Guest extends Customer{
-}
+//public class Guest extends Customer{
+//}

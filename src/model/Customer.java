@@ -7,6 +7,12 @@ public abstract class Customer extends User{
     private String phone;
     private String email;
 
+    Customer(String name, String phone, String email){
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+    }
+
     public String getName() {
         return name;
     }
