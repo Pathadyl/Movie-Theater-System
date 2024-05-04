@@ -21,6 +21,10 @@ public class Application {
             System.out.println("- Password: " + admin.getPassword());
             count++;
         }
+
+//        MovieService newMovie = new MovieService();
+//        newMovie.addMovie("Ackane", "A group of hero fight againts evil",
+//                       "Riot", "Science fiction", "150", 45000, true, true);
     }
 
 

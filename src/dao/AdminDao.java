@@ -36,6 +36,6 @@ public class AdminDao {
         }
 
         return admins;
-
     }
+
 }

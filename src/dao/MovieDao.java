@@ -42,5 +42,27 @@ public class MovieDao {
         return movies;
     }
 
+    public void addMovie(String title, String description,
+                         String director, String genre, String duration,
+                         int price, boolean visibility, boolean availability){
+        Connection connection =JDBCConnection.getJDBCConnection();
+        String sql = "INSERT INTO movie (title, description, director, genre, duration, price, visibility, availability)" +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, description);
+            preparedStatement.setString(3, director);
+            preparedStatement.setString(4, genre);
+            preparedStatement.setString(5, duration);
+            preparedStatement.setInt(6, price);
+            preparedStatement.setBoolean(7, visibility);
+            preparedStatement.setBoolean(8, availability);
 
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
