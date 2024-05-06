@@ -1,12 +1,18 @@
 package model;
 
 public abstract class User {
-    private int id;
-    public int getId() {
-        return id;
+    private String userName;
+    private String password;
+    private Role role;
+    public User(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+    public Role getRole() {
+        return role;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

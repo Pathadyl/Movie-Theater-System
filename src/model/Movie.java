@@ -10,6 +10,18 @@ public class Movie {
     private boolean visibility;
     private boolean availability;
 
+    public Movie(String title, String description, String director, String genre,
+                 String duration, double price, boolean visibility, boolean availability) {
+        this.title = title;
+        this.description = description;
+        this.director = director;
+        this.genre = genre;
+        this.duration = duration;
+        this.price = price;
+        this.visibility = visibility;
+        this.availability = availability;
+    }
+
     public String getTitle() {
         return title;
     }

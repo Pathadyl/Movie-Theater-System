@@ -8,6 +8,6 @@ public class MovieService {
     private MovieDao movieDao = new MovieDao();
 
     public List<Movie> getAllMovie() {
-        return movieDao.getAllMovie();
+        return movieDao.getAllMovies();
     }
 }
