@@ -25,7 +25,7 @@ public class AdminDao {
                 int id = rs.getInt("id");
                 String userName = rs.getString("user_name");
                 String password = rs.getString("password");
-                Admin admin = new Admin(id, userName, password);
+                Admin admin = new Admin (userName, password);
                 admins.add(admin);
             }
         } catch (SQLException e) {
