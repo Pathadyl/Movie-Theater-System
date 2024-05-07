@@ -1,8 +1,9 @@
 package model;
 
 public class Guest extends Customer{
-    public Guest(int id, String name, String phone, String email) {
-        super(id, name, phone, email);
+    public Guest(String userName, String password, String name, String phone, String email) {
+        super(userName, password, name, phone, email);
         setRole(Role.CUSTOMER);
     }
 }
+

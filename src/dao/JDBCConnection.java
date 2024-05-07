@@ -1,8 +1,8 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Connection;
 
 public class JDBCConnection {
     private static final String url = "jdbc:mysql://localhost:3306/movie_theater_project";
@@ -12,7 +12,12 @@ public class JDBCConnection {
     public static Connection getJDBCConnection(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(url, user, password);
+            Connection connection = DriverManager.getConnection(url, user, password);
+            if (connection != null) {
+                return connection;
+            } else {
+                System.out.println("Failed to establish connection to the database.");
+            }
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } catch (SQLException ex) {

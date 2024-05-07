@@ -1,4 +1,5 @@
 package service;
 
-public abstract class CustomerService {
+public abstract class CustomerService extends UserService {
+
 }

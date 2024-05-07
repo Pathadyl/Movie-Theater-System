@@ -12,6 +12,7 @@ public class Member extends Customer{
         this.dob = dob;
         this.rewardPoint = rewardPoint;
     }
+
     public Date getDob() {
         return dob;
     }

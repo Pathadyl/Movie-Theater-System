@@ -34,4 +34,5 @@ public class Theater {
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
     }
+
 }
