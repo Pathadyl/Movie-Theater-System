@@ -35,4 +35,23 @@ public class AdminDao {
         return admins;
     }
 
+    public Admin getAuthenticated(String userName, String password) {
+        Connection connection = JDBCConnection.getJDBCConnection();
+
+        String sql = "SELECT * FROM ADMIN " +
+                     "WHERE userName = ? AND password = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1,userName);
+            preparedStatement.setString(2, password);
+
+            boolean rs = preparedStatement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
 }

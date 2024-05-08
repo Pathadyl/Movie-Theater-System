@@ -1,6 +1,7 @@
 package model;
 
 public class Movie {
+    private int id;
     private String title;
     private String description;
     private String director;
@@ -10,8 +11,9 @@ public class Movie {
     private boolean visibility;
     private boolean availability;
 
-    public Movie(String title, String description, String director, String genre,
+    public Movie(int id, String title, String description, String director, String genre,
                  String duration, double price, boolean visibility, boolean availability) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.director = director;
@@ -22,6 +24,9 @@ public class Movie {
         this.availability = availability;
     }
 
+    public int getId() {
+        return id;
+    }
     public String getTitle() {
         return title;
     }

@@ -1,18 +1,19 @@
 package service;
 
 import dao.MovieDao;
+import dao.MovieTheaterDao;
 import dao.TheaterDao;
 import model.Movie;
 import model.Theater;
 import model.User;
 import model.Role;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class UserService {
     private MovieDao movieDao = new MovieDao();
     private TheaterDao theaterDao = new TheaterDao();
+    private MovieTheaterDao mtDao = new MovieTheaterDao();
 
 
     public List<Movie> searchMovieByTitle(String title, Role role) {
@@ -25,7 +26,7 @@ public abstract class UserService {
         return movieDao.getMovieListByGenre(genre, role);
     }
     public List<Movie> getMovieListByTheater(Theater theater, Role role) {
-        return movieDao.getMovieListByTheater(theater, role);
+        return mtDao.getMovieListByTheater(theater.getId(), role);
     }
     abstract public User logIn(String userName, String password);
 }
