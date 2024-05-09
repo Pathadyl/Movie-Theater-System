@@ -3,12 +3,11 @@ package model;
 import java.sql.Date;
 
 public class Member extends Customer{
-    private String userName;
-    private String password;
     private Date dob;
     private int rewardPoint;
 
     public Member(String userName, String password, String name, String phone, String email, Date dob, int rewardPoint) {
+<<<<<<< HEAD
         super(name, phone, email);
         this.userName = userName;
         this.password = password;
@@ -56,19 +55,26 @@ public class Member extends Customer{
 //        this.email = email;
 //    }
 
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
+=======
+        super(userName, password, name, phone, email);
+    setRole(Role.CUSTOMER);
         this.dob = dob;
-    }
-
-    public int getRewardPoint() {
-        return rewardPoint;
-    }
-
-    public void setRewardPoint(int rewardPoint) {
         this.rewardPoint = rewardPoint;
-    }
+}
+>>>>>>> 141aa8214ecdc7a49ae0ecc27287cea91f40a6fb
+public Date getDob() {
+    return dob;
+}
+
+public void setDob(Date dob) {
+    this.dob = dob;
+}
+
+public int getRewardPoint() {
+    return rewardPoint;
+}
+
+public void setRewardPoint(int rewardPoint) {
+    this.rewardPoint = rewardPoint;
+}
 }

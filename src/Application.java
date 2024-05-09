@@ -1,25 +1,24 @@
-import model.Admin;
-import model.Movie;
+import dao.MovieDao;
+import dao.TheaterDao;
+import model.*;
 import service.AdminService;
 import service.MovieService;
 
-import java.awt.geom.AffineTransform;
 import java.util.List;
 
 public class Application {
     public static void main(String[] args) {
-        AdminService adminService = new AdminService();
+        MovieDao movieDao = new MovieDao();
+        TheaterDao theaterDao = new TheaterDao();
 
-        List<Admin> admins = adminService.getAllAdmin();
+        List<Theater> theaters = theaterDao.searchTheaterByName("Galaxy", Role.ADMIN);
+        List<Movie> movies = movieDao.getMovieListByGenre("Action", Role.CUSTOMER);
+//        for(Theater theater : theaters) {
+//            System.out.println("Theater " + theater.getName());
+//        }
 
-        int count = 1;
-        for (Admin admin: admins) {
-            String header = "Admin" + count;
-            System.out.println("======================== " + header + " ========================");
-            System.out.println("- Id: " + admin.getId());
-            System.out.println("- UserName: " + admin.getUserName());
-            System.out.println("- Password: " + admin.getPassword());
-            count++;
+        for(Movie movie : movies) {
+            System.out.println(movie.getTitle());
         }
 
 //        MovieService newMovie = new MovieService();
@@ -27,19 +26,4 @@ public class Application {
 //                       "Riot", "Science fiction", "150", 45000, true, true);
     }
 
-
-    public static void printStringInChunks(String str, int wordsPerLine) {
-        String[] words = str.split("\\s+");
-
-        int wordCount = 0;
-        for (String word : words) {
-            System.out.print(word + " ");
-            wordCount++;
-
-            if (wordCount == wordsPerLine) {
-                System.out.println();
-                wordCount = 0;
-            }
-        }
-    }
 }

@@ -8,7 +8,7 @@ public class MovieService {
     private MovieDao movieDao = new MovieDao();
 
     public List<Movie> getAllMovie() {
-        return movieDao.getAllMovie();
+        return movieDao.getAllMovies();
     }
     public void addMovie(String title, String description,
                          String director, String genre, String duration,
