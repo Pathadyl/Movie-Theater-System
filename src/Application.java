@@ -1,8 +1,6 @@
 import dao.MovieDao;
-import dao.MovieTheaterDao;
 import dao.TheaterDao;
 import model.Movie;
-import model.Role;
 
 import java.util.List;
 

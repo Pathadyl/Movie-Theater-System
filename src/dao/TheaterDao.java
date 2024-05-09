@@ -149,7 +149,8 @@ public class TheaterDao {
 
             int rs = preparedStatement.executeUpdate();
 
-            logForModifyTheaterRequest(sql, "Edit theater from DB", rs);
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForModifyTheaterRequest(actualSql, "Edit theater from DB", rs);
 
         } catch (SQLException e) {
             e.printStackTrace();

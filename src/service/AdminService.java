@@ -10,11 +10,10 @@ import java.util.List;
 
 public class AdminService extends UserService {
     private AdminDao adminDao;
-    private MovieDao movieDao;
 
-    public AdminService() {
+    public AdminService(Admin admin) {
+        super(admin);
         adminDao = new AdminDao();
-        movieDao = new MovieDao();
     }
 
     // ================================ Admin Management ===================================
@@ -24,13 +23,13 @@ public class AdminService extends UserService {
 
     // ================================ Movie Management ===================================
     public boolean addMovieToDB(Movie movie) {
-        return movieDao.addMovieToDB(movie.getTitle(), movie.getDescription(), movie.getDirector(), movie.getGenre(),
+        return getMovieDao().addMovieToDB(movie.getTitle(), movie.getDescription(), movie.getDirector(), movie.getGenre(),
                               movie.getDuration(), movie.getPrice(), movie.isVisibility(), movie.isAvailability());
 
     }
 
     public boolean removeMovieFromDB(Movie movie) {
-        return movieDao.deleteMovieFromDB(movie.getId());
+        return getMovieDao().deleteMovieFromDB(movie.getId());
     }
 
 
