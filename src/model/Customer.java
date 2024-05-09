@@ -7,7 +7,6 @@ public abstract class Customer extends User{
     private String phone;
     private String email;
 
-
     public Customer(String userName, String password, String name, String phone, String email) {
         super(userName, password);
         this.name = name;

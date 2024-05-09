@@ -1,8 +1,8 @@
 import dao.MovieDao;
+import dao.MovieTheaterDao;
 import dao.TheaterDao;
-import model.*;
-import service.AdminService;
-import service.MovieService;
+import model.Movie;
+import model.Role;
 
 import java.util.List;
 
@@ -11,19 +11,24 @@ public class Application {
         MovieDao movieDao = new MovieDao();
         TheaterDao theaterDao = new TheaterDao();
 
-        List<Theater> theaters = theaterDao.searchTheaterByName("Galaxy", Role.ADMIN);
-        List<Movie> movies = movieDao.getMovieListByGenre("Action", Role.CUSTOMER);
-//        for(Theater theater : theaters) {
-//            System.out.println("Theater " + theater.getName());
-//        }
+//        List<Theater> theaters = theaterDao.searchTheaterByName("Galaxy", Role.ADMIN);
 
+//
+
+
+
+
+        System.out.println(movieDao.addMovieToDB("abc", "abc", "abc", "abc",
+                "abc", 100000, true, true));
+
+        List<Movie> movies = movieDao.getAllMovies();
         for(Movie movie : movies) {
-            System.out.println(movie.getTitle());
+            System.out.println(movie.getId() + ". " + movie.getTitle());
         }
 
-//        MovieService newMovie = new MovieService();
-//        newMovie.addMovie("Ackane", "A group of hero fight againts evil",
-//                       "Riot", "Science fiction", "150", 45000, true, true);
+        System.out.println(movieDao.deleteMovieFromDB(movies.get(movies.size() - 1).getId()));
+
+
     }
 
 }

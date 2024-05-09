@@ -15,6 +15,6 @@ public class MovieService {
                          int price, boolean visibility, boolean availability){
         // Get data from submit request on GUI
         //title = text1.getString() ....
-        movieDao.addMovie(title,description,director,genre,duration,price,visibility,availability);
+        movieDao.addMovieToDB(title,description,director,genre,duration,price,visibility,availability);
     }
 }
