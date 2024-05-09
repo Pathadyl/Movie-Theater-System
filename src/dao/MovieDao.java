@@ -57,13 +57,15 @@ public class MovieDao {
             preparedStatement.setString(1, "%" + t + "%");
             if(role == Role.CUSTOMER)
                 preparedStatement.setBoolean(2, true);
+
             ResultSet rs = preparedStatement.executeQuery();
 
             while(rs.next()) {
                 movies.add(mapResultSetToMovie(rs));
             }
 
-            logForGetMovieRequest(sql, movies, "Get movie by title");
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForGetMovieRequest(actualSql, movies, "Get movie by title");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,13 +98,14 @@ public class MovieDao {
             if (role == Role.CUSTOMER)
                 preparedStatement.setBoolean(2, true);
 
+            String actualSql = preparedStatement.toString().split(": ")[1];
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
                 movies.add(mapResultSetToMovie(rs));
             }
 
-            logForGetMovieRequest(sql, movies, "Get movie by genre");
+            logForGetMovieRequest(actualSql, movies, "Get movie by genre");
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -143,7 +146,8 @@ public class MovieDao {
 
             int rs = preparedStatement.executeUpdate();
 
-            logForModifyMovieRequest(sql, "Add movie to database", rs);
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForModifyMovieRequest(actualSql, "Add movie to database", rs);
 
             if (rs > 0)
                 flag = true;
@@ -176,7 +180,8 @@ public class MovieDao {
 
             int rs = preparedStatement.executeUpdate();
 
-            logForModifyMovieRequest(sql, "Delete movie from database", rs);
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForModifyMovieRequest(actualSql, "Delete movie from database", rs);
 
             if (rs > 0)
                 flag = true;
@@ -209,7 +214,8 @@ public class MovieDao {
 
             int rs = preparedStatement.executeUpdate();
 
-            logForModifyMovieRequest(sql, "Hide movie from customer", rs);
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForModifyMovieRequest(actualSql, "Hide movie from customer", rs);
 
             if (rs > 0) flag = true;
 
@@ -251,7 +257,8 @@ public class MovieDao {
 
             int rs = preparedStatement.executeUpdate();
 
-            logForModifyMovieRequest(sql, "Edit movie from database", rs);
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForModifyMovieRequest(actualSql, "Edit movie from database", rs);
 
         } catch (SQLException e) {
             e.printStackTrace();

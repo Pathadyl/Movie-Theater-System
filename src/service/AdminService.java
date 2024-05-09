@@ -29,6 +29,10 @@ public class AdminService extends UserService {
 
     }
 
+    public boolean removeMovieFromDB(Movie movie) {
+        return movieDao.deleteMovieFromDB(movie.getId());
+    }
+
 
     @Override
     public User logIn(String userName, String password) {

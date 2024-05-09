@@ -26,7 +26,8 @@ public class TheaterDao {
                 theaters.add(mapResultSetToTheater(rs));
             }
 
-            logForGetTheaterRequest(sql, theaters, "Get all theaters");
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForGetTheaterRequest(actualSql, theaters, "Get all theaters");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,7 +65,8 @@ public class TheaterDao {
                 theaters.add(mapResultSetToTheater(rs));
             }
 
-            logForGetTheaterRequest(sql, theaters, "Get theaters by name");
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForGetTheaterRequest(actualSql, theaters, "Get theaters by name");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,7 +93,8 @@ public class TheaterDao {
             preparedStatement.setString(2, location);
             int rs = preparedStatement.executeUpdate();
 
-            logForModifyTheaterRequest(sql, "Add theater to DB", rs);
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForModifyTheaterRequest(actualSql, "Add theater to DB", rs);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -117,7 +120,8 @@ public class TheaterDao {
 
             int rs = preparedStatement.executeUpdate();
 
-            logForModifyTheaterRequest(sql, "Remove theater from DB", rs);
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForModifyTheaterRequest(actualSql, "Remove theater from DB", rs);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -163,11 +167,12 @@ public class TheaterDao {
     }
 
     private Theater mapResultSetToTheater(ResultSet rs) throws SQLException {
+        int id = rs.getInt("id");
         String name = rs.getString("name");
         String location = rs.getString("location");
         boolean visibility = rs.getBoolean("visibility");
 
-        return new Theater(name, location, visibility);
+        return new Theater(id, name, location, visibility);
     }
 
     private void logForGetTheaterRequest(String sql, List<Theater> theaters, String typeRequest) {

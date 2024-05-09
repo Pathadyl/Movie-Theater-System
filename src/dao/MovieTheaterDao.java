@@ -35,7 +35,8 @@ public class MovieTheaterDao {
                 movies.add(mapResultSetToMovie(rs));
             }
 
-            logForGetMovieRequest(sql, movies, "Get movie list by theater");
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForGetMovieRequest(actualSql, movies, "Get movie list by theater");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,6 +66,7 @@ public class MovieTheaterDao {
 
             int rs = preparedStatement.executeUpdate();
 
+            String actualSql = preparedStatement.toString().split(": ")[1];
             logForModifyMovieRequest(sql, "Add movie to theater", rs);
 
         } catch (SQLException ex) {
@@ -93,7 +95,8 @@ public class MovieTheaterDao {
 
             int rs = preparedStatement.executeUpdate();
 
-            logForModifyMovieRequest(sql, "Delete movie from theater", rs);
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForModifyMovieRequest(actualSql, "Delete movie from theater", rs);
 
         } catch (SQLException ex) {
             ex.printStackTrace();

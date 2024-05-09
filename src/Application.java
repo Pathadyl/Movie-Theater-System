@@ -2,6 +2,7 @@ import dao.MovieDao;
 import dao.MovieTheaterDao;
 import dao.TheaterDao;
 import model.Movie;
+import model.Role;
 
 import java.util.List;
 
@@ -15,12 +16,18 @@ public class Application {
 //
 
 
+
+
+        System.out.println(movieDao.addMovieToDB("abc", "abc", "abc", "abc",
+                "abc", 100000, true, true));
+
         List<Movie> movies = movieDao.getAllMovies();
         for(Movie movie : movies) {
             System.out.println(movie.getId() + ". " + movie.getTitle());
         }
 
-        movieDao.deleteMovieFromDB(movies.get(movies.size() - 1).getId());
+        System.out.println(movieDao.deleteMovieFromDB(movies.get(movies.size() - 1).getId()));
+
 
     }
 

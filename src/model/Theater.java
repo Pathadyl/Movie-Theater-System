@@ -6,7 +6,8 @@ public class Theater {
     private String location;
     private boolean visibility;
 
-    public Theater(String name, String location, boolean visibility) {
+    public Theater(int id, String name, String location, boolean visibility) {
+        this.id = id;
         this.name = name;
         this.location = location;
         this.visibility = visibility;
