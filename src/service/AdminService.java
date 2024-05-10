@@ -35,6 +35,6 @@ public class AdminService extends UserService {
 
     @Override
     public User logIn(String userName, String password) {
-        return null;
+        return adminDao.getAuthenticated(userName, password);
     }
 }

@@ -1,6 +1,5 @@
 package dao;
 
-import model.Movie;
 import model.Role;
 import model.Theater;
 
@@ -19,7 +18,9 @@ public class TheaterDao {
 
         String sql = "SELECT * FROM theater";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                                                                               ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                               ResultSet.CONCUR_READ_ONLY);
              ResultSet rs = preparedStatement.executeQuery()) {
 
             while(rs.next()) {
@@ -27,7 +28,7 @@ public class TheaterDao {
             }
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForGetTheaterRequest(actualSql, theaters, "Get all theaters");
+            logForTheaterQuery(actualSql, rs, "Get all theaters");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,7 +56,9 @@ public class TheaterDao {
         if(role == Role.CUSTOMER)
             sql += " AND visibility = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                                                                               ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                               ResultSet.CONCUR_READ_ONLY)) {
             preparedStatement.setString(1, "%" + n + "%");
             if(role == Role.CUSTOMER)
                 preparedStatement.setBoolean(2, true);
@@ -66,7 +69,7 @@ public class TheaterDao {
             }
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForGetTheaterRequest(actualSql, theaters, "Get theaters by name");
+            logForTheaterQuery(actualSql, rs, "Get theaters by name");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,7 +97,7 @@ public class TheaterDao {
             int rs = preparedStatement.executeUpdate();
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForModifyTheaterRequest(actualSql, "Add theater to DB", rs);
+            logForTheaterQuery(actualSql, rs, "Add theater to DB");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -121,7 +124,7 @@ public class TheaterDao {
             int rs = preparedStatement.executeUpdate();
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForModifyTheaterRequest(actualSql, "Remove theater from DB", rs);
+            logForTheaterQuery(actualSql,  rs,"Remove theater from DB");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -150,7 +153,7 @@ public class TheaterDao {
             int rs = preparedStatement.executeUpdate();
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForModifyTheaterRequest(actualSql, "Edit theater from DB", rs);
+            logForTheaterQuery(actualSql, rs, "Edit theater from DB");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -176,24 +179,25 @@ public class TheaterDao {
         return new Theater(id, name, location, visibility);
     }
 
-    private void logForGetTheaterRequest(String sql, List<Theater> theaters, String typeRequest) {
-        if(!theaters.isEmpty()) {
-            System.out.println("\n(+)  " + typeRequest + " success!");
-            System.out.println("(+)  Number of rows return: " + theaters.size());
-            System.out.println("(+)  Query:\n" + sql);
-        } else {
-            System.out.println("\n(+)  Number of rows return: " + 0);
-        }
+    private void logForTheaterQuery(String sql, ResultSet rs, String typeRequest) throws SQLException {
+        int rowResult = 0;
+        if(rs == null)
+            System.out.println("\n(+)  Number of rows return: " + rowResult);
+
+        rs.last();
+        rowResult = rs.getRow();
+        System.out.println("\n(+)  " + typeRequest + " success!");
+        System.out.println("(+)  Number of rows return: " + rowResult);
+        System.out.println("(+)  Query:\n" + sql);
     }
 
-    private void logForModifyTheaterRequest(String sql, String typeRequest, int rs) {
-        if(rs > 0) {
-            System.out.println("\n(+)  " + typeRequest + " success!");
-            System.out.println("(+)  Number of rows affected: " + rs);
-            System.out.println("(+)  Query:\n" + sql);
-        } else {
+    private void logForTheaterQuery(String sql,  int rs, String typeRequest) {
+        if(rs <= 0)
             System.out.println("\n(+) Fail to " + typeRequest + "!");
-        }
+
+        System.out.println("\n(+)  " + typeRequest + " success!");
+        System.out.println("(+)  Number of rows affected: " + rs);
+        System.out.println("(+)  Query:\n" + sql);
     }
 
 }

@@ -11,8 +11,8 @@ public abstract class Customer extends User{
     private Map<Movie, Integer> cart;
     private List<Bill> billList;
 
-    public Customer(String userName, String password, String name, String phone, String email) {
-        super(userName, password);
+    public Customer(int id, String userName, String password, String name, String phone, String email) {
+        super(id, userName, password);
         this.name = name;
         this.phone = phone;
         this.email = email;

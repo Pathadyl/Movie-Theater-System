@@ -20,19 +20,29 @@ public abstract class UserService {
         theaterDao = new TheaterDao();
     }
 
+    public List<Movie> getAllMovie() {
+        return movieDao.getAllMovies();
+    }
+
     public List<Movie> searchMovieByTitle(String title, Role role) {
         return movieDao.searchMovieByTitle(title, role);
     }
+
     public List<Theater> searchTheaterByName(String name, Role role) {
         return theaterDao.searchTheaterByName(name, role);
     }
+
     public List<Movie> getMovieListByGenre(String genre, Role role){
         return movieDao.getMovieListByGenre(genre, role);
     }
+
     public List<Movie> getMovieListByTheater(Theater theater, Role role) {
         return movieDao.getMovieListByTheater(theater.getId(), role);
     }
+
     abstract public User logIn(String userName, String password);
+
+
 
     public MovieDao getMovieDao() {
         return movieDao;

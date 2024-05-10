@@ -1,6 +1,5 @@
-import dao.MovieDao;
-import dao.TheaterDao;
-import model.Movie;
+import dao.*;
+import model.*;
 
 import java.util.List;
 
@@ -8,23 +7,37 @@ public class Application {
     public static void main(String[] args) {
         MovieDao movieDao = new MovieDao();
         TheaterDao theaterDao = new TheaterDao();
+        AdminDao adminDao = new AdminDao();
+        MemberDao memberDao = new MemberDao();
+        GuestDao guestDao = new GuestDao();
 
-//        List<Theater> theaters = theaterDao.searchTheaterByName("Galaxy", Role.ADMIN);
-
-//
-
-
-
-
-        System.out.println(movieDao.addMovieToDB("abc", "abc", "abc", "abc",
-                "abc", 100000, true, true));
 
         List<Movie> movies = movieDao.getAllMovies();
         for(Movie movie : movies) {
             System.out.println(movie.getId() + ". " + movie.getTitle());
         }
 
-        System.out.println(movieDao.deleteMovieFromDB(movies.get(movies.size() - 1).getId()));
+        List<Theater> theaters = theaterDao.getAllTheaters();
+        for(Theater theater : theaters) {
+            System.out.println(theater.getId() + ". " + theater.getName());
+        }
+
+        Admin admin = adminDao.getAuthenticated("admin01", "admin01");
+        System.out.println(admin.getId() + ". " + admin.getUserName());
+
+        Member member = memberDao.getAuthenticated("member1", "abc123");
+        System.out.println("Id: " + member.getId());
+        System.out.println("Name: " + member.getName());
+        System.out.println("Phone: " + member.getPhone());
+        System.out.println("Email: " + member.getEmail());
+        System.out.println("Date of birth: " + member.getDob());
+        System.out.println("Reward point: " + member.getRewardPoint());
+
+        Guest guest = guestDao.createGuest();
+        System.out.println("Id: " + guest.getId());
+        System.out.println("Name: " + guest.getName());
+        System.out.println("Phone: " + guest.getPhone());
+        System.out.println("Email: " + guest.getEmail());
 
 
     }

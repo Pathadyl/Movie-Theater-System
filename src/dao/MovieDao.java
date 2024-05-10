@@ -20,14 +20,16 @@ public class MovieDao {
 
         String sql = "SELECT * FROM movie";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                                                                               ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                               ResultSet.CONCUR_READ_ONLY);
              ResultSet rs = preparedStatement.executeQuery()) {
 
             while(rs.next()) {
                 movies.add(mapResultSetToMovie(rs));
             }
 
-            logForGetMovieRequest(sql, movies, "Get all movies");
+            logForMovieQuery(sql, rs, "Get all movies");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,7 +57,9 @@ public class MovieDao {
         if(role == Role.CUSTOMER)
             sql += " AND visibility = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                                                                               ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                               ResultSet.CONCUR_READ_ONLY)) {
             preparedStatement.setString(1, "%" + t + "%");
             if(role == Role.CUSTOMER)
                 preparedStatement.setBoolean(2, true);
@@ -67,7 +71,7 @@ public class MovieDao {
             }
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForGetMovieRequest(actualSql, movies, "Get movie by title");
+            logForMovieQuery(actualSql, rs, "Get movie by title");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,7 +99,9 @@ public class MovieDao {
         if (role == Role.CUSTOMER)
             sql += " AND visibility = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                                                                               ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                               ResultSet.CONCUR_READ_ONLY)) {
             preparedStatement.setString(1, g);
             if (role == Role.CUSTOMER)
                 preparedStatement.setBoolean(2, true);
@@ -107,7 +113,7 @@ public class MovieDao {
                 movies.add(mapResultSetToMovie(rs));
             }
 
-            logForGetMovieRequest(actualSql, movies, "Get movie by genre");
+            logForMovieQuery(actualSql, rs, "Get movie by genre");
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -138,8 +144,9 @@ public class MovieDao {
         if(role == Role.CUSTOMER)
             sql += "AND m.visibility = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                                                                               ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                               ResultSet.CONCUR_READ_ONLY)) {
             preparedStatement.setInt(1, theaterId);
             if (role == Role.CUSTOMER)
                 preparedStatement.setBoolean(2, true);
@@ -151,7 +158,7 @@ public class MovieDao {
             }
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForGetMovieRequest(actualSql, movies, "Get movie list by theater");
+            logForMovieQuery(actualSql, rs, "Get movie list by theater");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -194,7 +201,7 @@ public class MovieDao {
             int rs = preparedStatement.executeUpdate();
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForModifyMovieRequest(actualSql, "Add movie to database", rs);
+            logForMovieQuery(actualSql, rs, "Add movie to database");
 
             if (rs > 0)
                 flag = true;
@@ -228,7 +235,7 @@ public class MovieDao {
             int rs = preparedStatement.executeUpdate();
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForModifyMovieRequest(actualSql, "Delete movie from database", rs);
+            logForMovieQuery(actualSql, rs, "Delete movie from database");
 
             if (rs > 0)
                 flag = true;
@@ -262,7 +269,7 @@ public class MovieDao {
             int rs = preparedStatement.executeUpdate();
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForModifyMovieRequest(actualSql, "Hide movie from customer", rs);
+            logForMovieQuery(actualSql, rs, "Hide movie from customer");
 
             if (rs > 0) flag = true;
 
@@ -305,7 +312,7 @@ public class MovieDao {
             int rs = preparedStatement.executeUpdate();
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForModifyMovieRequest(actualSql, "Edit movie from database", rs);
+            logForMovieQuery(actualSql, rs, "Edit movie from database");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -323,33 +330,33 @@ public class MovieDao {
 
 // ==================================== Modify Movie In Theater ======================================================
     public void addMovieToTheater(int theaterId, int movieId) {
-    Connection connection = JDBCConnection.getJDBCConnection();
+        Connection connection = JDBCConnection.getJDBCConnection();
 
-    String sql = "INSERT INTO movie_theater (movie_id, theater_id)" +
-            "VALUES (?, ?)";
+        String sql = "INSERT INTO movie_theater (movie_id, theater_id)" +
+                     "VALUES (?, ?)";
 
-    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-        preparedStatement.setInt(1, movieId);
-        preparedStatement.setInt(2, theaterId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1, movieId);
+            preparedStatement.setInt(2, theaterId);
 
-        int rs = preparedStatement.executeUpdate();
+            int rs = preparedStatement.executeUpdate();
 
-        String actualSql = preparedStatement.toString().split(": ")[1];
-        logForModifyMovieRequest(sql, "Add movie to theater", rs);
+            String actualSql = preparedStatement.toString().split(": ")[1];
+            logForMovieQuery(sql, rs, "Add movie to theater");
 
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
 
-    } finally {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
-}
 
     public void removeMovieFromTheater(int theaterId, int movieId) {
         Connection connection = JDBCConnection.getJDBCConnection();
@@ -364,7 +371,7 @@ public class MovieDao {
             int rs = preparedStatement.executeUpdate();
 
             String actualSql = preparedStatement.toString().split(": ")[1];
-            logForModifyMovieRequest(actualSql, "Delete movie from theater", rs);
+            logForMovieQuery(actualSql, rs, "Delete movie from theater");
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -395,23 +402,27 @@ public class MovieDao {
         return new Movie(id, title, description, director, genre, duration, price, visibility, availability);
     }
 
-    private void logForGetMovieRequest(String sql, List<Movie> movies, String typeRequest) {
-        if(!movies.isEmpty()) {
-            System.out.println("\n(+)  " + typeRequest + " success!");
-            System.out.println("(+)  Number of rows return: " + movies.size());
-            System.out.println("(+)  Query:\n" + sql);
-        } else {
-            System.out.println("\n(+)  Number of rows return: " + 0);
-        }
+    private void logForMovieQuery(String sql, ResultSet rs, String typeRequest) throws SQLException {
+        int rowResult = 0;
+
+        if(rs == null)
+            System.out.println("\n(+)  Number of rows returned: " + rowResult);
+
+        rs.last();
+        rowResult = rs.getRow();
+        System.out.println("\n(+)  " + typeRequest + " success!");
+        System.out.println("(+)  Number of rows returned: " + rowResult);
+        System.out.println("(+)  Query:\n" + sql);
+
     }
 
-    private void logForModifyMovieRequest(String sql, String typeRequest, int rs) {
-        if(rs > 0) {
-            System.out.println("\n(+)  " + typeRequest + " success!");
-            System.out.println("(+)  Number of rows affected: " + rs);
-            System.out.println("(+)  Query:\n" + sql);
-        } else {
+    private void logForMovieQuery(String sql, int rs, String typeRequest) {
+        if(rs <= 0)
             System.out.println("\n(+) Fail to " + typeRequest + "!");
-        }
+
+        System.out.println("\n(+)  " + typeRequest + " success!");
+        System.out.println("(+)  Number of rows affected: " + rs);
+        System.out.println("(+)  Query:\n" + sql);
+
     }
 }
