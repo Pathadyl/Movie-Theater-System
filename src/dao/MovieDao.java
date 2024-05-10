@@ -1,5 +1,6 @@
 package dao;
 
+import model.Admin;
 import model.Role;
 import model.Movie;
 
@@ -13,6 +14,44 @@ import java.util.List;
 public class MovieDao {
 
 // ==================================== Get Movie List Given Condition ===============================================
+    public Movie getMovieById(int movieId) {
+        Connection connection = JDBCConnection.getJDBCConnection();
+
+        Movie movie = null;
+
+        String sql = "SELECT * FROM movie " +
+                     "WHERE id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                                                                               ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                               ResultSet.CONCUR_READ_ONLY)) {
+            preparedStatement.setInt(1, movieId);
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    movie = mapResultSetToMovie(rs);
+                }
+
+                String actualSql = preparedStatement.toString().split(": ")[1];
+                logForMovieQuery(actualSql, rs, "GetAuthenticated admin in DB");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return movie;
+    }
+
     public List<Movie> getAllMovies() {
         List<Movie> movies = new ArrayList<>();
 

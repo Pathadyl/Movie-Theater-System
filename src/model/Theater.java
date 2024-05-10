@@ -7,7 +7,6 @@ public class Theater {
     private String name;
     private String location;
     private boolean visibility;
-    private List<Movie> movieList;
 
     public Theater(int id, String name, String location, boolean visibility) {
         this.id = id;

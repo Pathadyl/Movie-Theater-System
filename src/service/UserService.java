@@ -40,6 +40,10 @@ public abstract class UserService {
         return movieDao.getMovieListByTheater(theater.getId(), role);
     }
 
+    public Movie getMovieInfo(Movie movie) {
+        return movieDao.getMovieById(movie.getId());
+    }
+
     abstract public User logIn(String userName, String password);
 
 
